@@ -148,7 +148,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-c', '--config',
                         action='store',
-                        default="config/config.json",
+                        default="config/example_config.json",
                         required=False,
                         type=argparse.FileType('r'),
                         help="Run with config file")
@@ -169,7 +169,7 @@ def main():
     is_cli_mode_on = args.cli
 
     try:
-        with open('log.txt', "w", encoding="utf-8") as logging_file:
+        with open('results/log.txt', "w", encoding="utf-8") as logging_file:
             log_stream.set_log_file(logging_file)
 
             try:
@@ -177,12 +177,12 @@ def main():
             except FileNotFoundError as e:
                 log_stream.error(e)
                 log_stream.error("=" * 30)
-                log_stream.error("Cannot find config.json.\nEnsure file is in exe directory.")
+                log_stream.error("Cannot find json config.")
                 return
             except json.JSONDecodeError as e:
                 log_stream.error(e)
                 log_stream.error("=" * 30)
-                log_stream.error("Cannot parse config.json.\nEnsure syntax is correct.")
+                log_stream.error("Cannot parse json config.\nEnsure syntax is correct.")
                 return
 
             watchlist = Watchlist(**json_data)

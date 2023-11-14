@@ -3,5 +3,5 @@ __pycache__/
 dist/
 build/
 *.spec
-log.txt
+results/log.txt
 config/config_confidential.json
