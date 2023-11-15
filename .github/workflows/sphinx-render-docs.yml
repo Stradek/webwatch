@@ -9,12 +9,13 @@ jobs:
       contents: write
     steps:
     - uses: actions/checkout@v4
-    - name: Copy requirements.txt to docs directory
+    - name: Install dependencies
       run: |
-        mkdir -p docs
-        cp requirements.txt docs/
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
     - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
+      run: |
+        sphinx-build -b html docs/source docs/build/html
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
