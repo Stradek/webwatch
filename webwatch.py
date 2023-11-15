@@ -1,7 +1,6 @@
-from typing import cast
-from typing_extensions import TypedDict
-
 from bs4 import BeautifulSoup
+import os
+
 import requests
 import json
 import argparse
@@ -171,7 +170,13 @@ def main():
 
         stop_after_execution = args.cli
 
-        with open('results/log.txt', "w", encoding="utf-8") as logging_file:
+        results_dir_path = os.path.relpath("results/")
+        if not os.path.exists(results_dir_path):
+            os.makedirs(results_dir_path)
+
+        log_path = os.path.join(results_dir_path, "log.txt")
+
+        with open(log_path, "w", encoding="utf-8") as logging_file:
             log_stream.set_log_file(logging_file)
 
             try:
