@@ -15,10 +15,10 @@ log_stream = LogStream()
 
 def extract_watchlist(watchlist: Watchlist) -> ExtractedWatchlist:
     extracted_watchlist = ExtractedWatchlist()
-    for watchlist_item in watchlist.watchlist_items:
+    for watchlist_item in watchlist.watched_item_list:
         assert watchlist_item.name is not None, log_stream.error("Watchlist item name cannot be empty")
         assert watchlist_item.url is not None, log_stream.error("Watchlist item URL cannot be empty")
-        assert len(watchlist_item.item_filters) > 0, log_stream.error("Watchlist item filters cannot be empty")
+        assert len(watchlist_item.filter_list) > 0, log_stream.error("Watchlist item filters cannot be empty")
         assert watchlist_item.hours_to_update >= 1, log_stream.error("Watchlist item update interval must be "
                                                                      "greater or equal to 1")
 
@@ -36,7 +36,7 @@ def extract_watchlist(watchlist: Watchlist) -> ExtractedWatchlist:
 
 def extract_watchlist_item(item: WatchedItem) -> ExtractedItem:
     url = item.url
-    item_filter_list = item.item_filters
+    item_filter_list = item.filter_list
 
     cookie = item.cookie
 
@@ -54,7 +54,7 @@ def extract_watchlist_item(item: WatchedItem) -> ExtractedItem:
     if webpage.status_code != 200:
         log_stream.error(f"Cannot get webpage: {url}")
         log_stream.error(f"Status code: {webpage.status_code}")
-        raise ConnectionError("Cannot get webpage")
+        raise ConnectionError(f"Cannot get webpage: {url}")
 
     soup = BeautifulSoup(webpage.text, 'html.parser')
 
@@ -92,7 +92,7 @@ def extract_watchlist_item(item: WatchedItem) -> ExtractedItem:
             elif item.sort_order == "desc":
                 sorted_values = sorted(found_values, reverse=True)
             else:
-                raise ValueError("Sort order must be 'asc' or 'desc'")
+                raise ValueError(f"Sort order was specified with {item.sort_order}. Sort order must be 'asc' or 'desc'")
             values_dict[item_filter.name] = sorted_values
         else:
             values_dict[item_filter.name] = found_values
@@ -148,7 +148,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-c', '--config',
                         action='store',
-                        default="config/example_config.json",
+                        default="config/config.json",
                         required=False,
                         type=argparse.FileType('r'),
                         help="Run with config file")
@@ -163,12 +163,14 @@ def get_parser() -> argparse.ArgumentParser:
 
 
 def main():
-    parser = get_parser()
-    args = parser.parse_args()
-
-    is_cli_mode_on = args.cli
+    stop_after_execution = False
 
     try:
+        parser = get_parser()
+        args = parser.parse_args()
+
+        stop_after_execution = args.cli
+
         with open('results/log.txt', "w", encoding="utf-8") as logging_file:
             log_stream.set_log_file(logging_file)
 
@@ -177,20 +179,22 @@ def main():
             except FileNotFoundError as e:
                 log_stream.error(e)
                 log_stream.error("=" * 30)
-                log_stream.error("Cannot find json config.")
+                log_stream.error(f"Cannot find: {args.config} json config.")
                 return
             except json.JSONDecodeError as e:
                 log_stream.error(e)
                 log_stream.error("=" * 30)
-                log_stream.error("Cannot parse json config.\nEnsure syntax is correct.")
+                log_stream.error(f"Cannot parse {args.config} json config.\nEnsure syntax is correct.")
                 return
 
             watchlist = Watchlist(**json_data)
             extracted_watchlist = extract_watchlist(watchlist)
 
             log_extracted_watchlist(extracted_watchlist)
+    except Exception as e:
+        log_stream.error(e)
     finally:
-        if not is_cli_mode_on:
+        if not stop_after_execution:
             input()
 
 

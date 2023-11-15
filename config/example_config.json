@@ -1,12 +1,12 @@
 {
-  "watchlist_items": [
+  "watched_item_list": [
     {
       "name" : "Spider-Man 2 PS5",
       "url" : "https://www.ceneo.pl/153814264",
       "hours_to_update" : 1000,
       "sort_by" : "Product Price",
       "sort_order" : "asc",
-      "item_filters": [
+      "filter_list": [
         {
           "name" : "Product Name",
           "css_selector" : ".product-offer__product__offer-details__name a",
@@ -23,7 +23,7 @@
       "name" : "Google",
       "url" : "https://google.com",
       "hours_to_update" : 1000,
-      "item_filters" : [
+      "filter_list" : [
         {
           "name" : "none",
           "css_selector" : "none_selector"

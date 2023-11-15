@@ -26,3 +26,4 @@ Contents
    installation
    configuration
    usage
+   api

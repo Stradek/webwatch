@@ -5,3 +5,4 @@ build/
 *.spec
 results/log.txt
 config/config_confidential.json
+config/config.json
