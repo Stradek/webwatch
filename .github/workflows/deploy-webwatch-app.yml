@@ -18,7 +18,8 @@ jobs:
 
     - name: Add files to dist/
       run: |
-        cp config/config.json dist/config/
+        mkdir dist/config
+        cp dist/config/example_config.json dist/config/example_config.json
 
     - name: Zip the application
       run: zip -r webwatch.zip dist/
