@@ -2,7 +2,7 @@ name: Deploy webwatch Application
 
 on:
   release:
-    types: [created]
+    types: [created, edited]
 
 jobs:
   deploy:
