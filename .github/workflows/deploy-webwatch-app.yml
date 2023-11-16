@@ -24,7 +24,9 @@ jobs:
         cp config/example_config.json dist/config/example_config.json
 
     - name: Zip the application
-      run: zip -r webwatch.zip dist/*
+      run: |
+        cd dist/
+        zip -r webwatch.zip *
 
     - name: Upload to GitHub Releases
       uses: softprops/action-gh-release@v1
