@@ -1,6 +1,8 @@
 name: Deploy webwatch Application
 
-on: [release]
+on:
+  release:
+    types: [prereleased, edited]
 
 jobs:
   deploy:
@@ -18,7 +20,8 @@ jobs:
 
     - name: Add files to dist/
       run: |
-        cp config/config.json dist/config/
+        mkdir dist/config
+        cp config/example_config.json dist/config/
 
     - name: Zip the application
       run: zip -r webwatch.zip dist/
