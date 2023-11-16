@@ -3,7 +3,6 @@
     {
       "name" : "Spider-Man 2 PS5",
       "url" : "https://www.ceneo.pl/153814264",
-      "hours_to_update" : 1000,
       "sort_by" : "Product Price",
       "sort_order" : "asc",
       "filter_list": [
@@ -22,7 +21,6 @@
     {
       "name" : "Google",
       "url" : "https://google.com",
-      "hours_to_update" : 1000,
       "filter_list" : [
         {
           "name" : "none",

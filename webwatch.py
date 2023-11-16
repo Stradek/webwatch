@@ -18,8 +18,6 @@ def extract_watchlist(watchlist: Watchlist) -> ExtractedWatchlist:
         assert watchlist_item.name is not None, log_stream.error("Watchlist item name cannot be empty")
         assert watchlist_item.url is not None, log_stream.error("Watchlist item URL cannot be empty")
         assert len(watchlist_item.filter_list) > 0, log_stream.error("Watchlist item filters cannot be empty")
-        assert watchlist_item.hours_to_update >= 1, log_stream.error("Watchlist item update interval must be "
-                                                                     "greater or equal to 1")
 
         try:
             extracted_item = extract_watchlist_item(watchlist_item)

@@ -44,8 +44,6 @@ class WatchedItem(BaseModel):
 
         **filter_list** (list[WatchedItemFilter]): List of item filters.
 
-        **hours_to_update** (int): Hours to update. Must be >= 1.
-
     Optional Parameters:
         **cookie** (str): Cookie to use.
 
@@ -59,7 +57,6 @@ class WatchedItem(BaseModel):
     name: str
     url: str
     filter_list: list[WatchedItemFilter]
-    hours_to_update: int
     cookie: str = None
     sort_by: str = None
     sort_order: str = None
