@@ -1,3 +1,3 @@
 # webwatch
-Tool for watching website changes for interesting items using css selectors.
+Tool for tracking website changes with interesting data using css selectors.
 
